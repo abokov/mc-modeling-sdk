@@ -48,11 +48,11 @@ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 namespace XmlTools {
 	// see below for implementation
-     void readXml(const char *file, CommonTypes::SimulationTask &task);
+     void readXml(const char *file, BaseTypes::SimulationTask &task);
 };
 
 // --- Class wrapper for basil xml functions
-XmlConfigFile::XmlConfigFile(const char *config_file,CommonTypes::SimulationTask &my_task) {
+XmlConfigFile::XmlConfigFile(const char *config_file, BaseTypes::SimulationTask &my_task) {
 	Init(config_file,my_task);
 }
 
@@ -60,7 +60,7 @@ XmlConfigFile::~XmlConfigFile() {
 	// do nothing currently
 }
 
-void XmlConfigFile::Init(const char *config_file,CommonTypes::SimulationTask &my_task) {
+void XmlConfigFile::Init(const char *config_file, BaseTypes::SimulationTask &my_task) {
 	cfg_file.assign(config_file);
 	task = my_task;
 }
@@ -98,7 +98,7 @@ void printbasicxmlnode( struct basicxmlnode * node);
 
 namespace XmlTools {
 
-using namespace CommonTypes;
+using namespace BaseTypes;
 
 std::string parse_xml(basicxmlnode * head, SimulationTask &task);
 

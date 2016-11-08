@@ -4,16 +4,16 @@
 
 #include <string>
 
-#include <CommonTypes.h>
+#include "mc-common/mc-base-types.h"
 
 class XmlConfigFile {
 	std::string cfg_file;
-	CommonTypes::SimulationTask task; 
+	BaseTypes::SimulationTask task; 
 public:
-	XmlConfigFile(const char *config_file, CommonTypes::SimulationTask &my_task);
+	XmlConfigFile(const char *config_file, BaseTypes::SimulationTask &my_task);
 	~XmlConfigFile();
 
-	void Init(const char *config_file, CommonTypes::SimulationTask &my_task);
+	void Init(const char *config_file, BaseTypes::SimulationTask &my_task);
 
 	bool Read(void);
 
