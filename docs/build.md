@@ -11,7 +11,7 @@ Also if you will fork/clone that repo from github (recommended way, but you also
 ```
 sudo apt-get install git
 ```
-### How to build
+### How to build standalone package
 
 Get sources from github:
 ```bash
@@ -23,4 +23,14 @@ cd mc-modeling-sdk
 make clean
 make
 ```
+### How to build Azure based packages
+
+In case of build for Azure you need to install and build two SDK - [Azure Storage SDK C++](https://github.com/Azure/azure-storage-cpp) which based on [C++ REST SDK](https://github.com/Microsoft/cpprestsdk).
+and []  - please refet their documentation for details and help. Below you may find how I did that build and compile them:
+```
+```
+
+```
+```
+
 ## Windows
