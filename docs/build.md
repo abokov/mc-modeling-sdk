@@ -26,8 +26,14 @@ make
 ### How to build Azure based packages
 
 In case of build for Azure you need to install and build two SDK - [Azure Storage SDK C++](https://github.com/Azure/azure-storage-cpp) which based on [C++ REST SDK](https://github.com/Microsoft/cpprestsdk).
-and []  - please refet their documentation for details and help. Below you may find how I did that build and compile them:
+Let's start from C++ REST SDK - please refer to [C++ REST SDK: How to build for linux](https://github.com/Microsoft/cpprestsdk/wiki/How-to-build-for-Linux) for details
 ```
+git clone git@github.com:Microsoft/cpprestsdk.git
+cd cpprestsdk/Release
+mkdir build.debug
+cd build.debug
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make
 ```
 
 ```
