@@ -1,7 +1,3 @@
-# How to build
-
-## Linux
-
 ### Prerequisites
 If you're developer 100% you may skip reading that - I sure that already have git, g++ and all other packets installed. Requirement are standart - g++ compiler and make tool, usually it's enough to install them from standart repository:
 ```bash
@@ -36,7 +32,60 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug
 make
 ```
 
+### Trouble shooting
+It might happened that previously build description won't work for you, so please refer then to more detailed step-by-step instruction below.
+1) Install all the needed build tools and libraries
 ```
+sudo apt-get install g++ git make libboost-all-dev libssl-dev cmake
+```
+Minimum versions required:
+    g++: 4.8
+    libboost: 1.54
+    libssl: 1.0.0
+2) Clone the project using Git (it will be stored in the folder "casablanca") - just in case, actually it should work without mentioning 'casablanca' but sometimes i know it might be helpful.
+```
+git clone https://github.com/Microsoft/cpprestsdk.git casablanca
+```
+3) Build SDK in Debug mode
+```
+cd casablanca/Release
+mkdir build.debug
+cd build.debug
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+make
+```
+4) Build SDK in Release mode
+```
+cd casablanca/Release
+mkdir build.debug
+cd build.debug
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make
+```
+5) Build the SDK in static libs ( my favorite option :-))
+```
+cd casablanca/Release
+mkdir build.debug
+cd build.debug
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=0
+make
+```
+6) Checkout test_runner inside binaries folder:
+```
+cd Binaries
+./test_runner *_test.so
 ```
 
-## Windows
+7) To install on your system run: 
+```
+sudo make install
+```
+
+8) You can check your first program by compiling it using necessary command line arguments
+( this one i took from C++ rest doc, need to fix to refer into mc-modeling-sdk )
+```
+g++ -std=c++11 my_file.cpp -o my_file -lboost_system -lcrypto -lssl -lcpprest
+./my_file
+```
+
+
