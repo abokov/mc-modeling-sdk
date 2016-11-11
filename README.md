@@ -31,14 +31,16 @@ Current process is pretty simple - it's enough to make command
 make
 ```
 All binaries are located under bin folder and executable file is _mc-modeling.bin_
-Note: there's some issues with running standalone binary on some linux flavours, I checked it on 64bits Ubuntu16.04, but I got feedback about issues on another linux-es/
+Note: there's some issues with running standalone binary on some linux flavours, I checked it on 64bits Ubuntu16.04, but I got feedback about issues on another linux-es/.
 
 ## build windows
 _to be done_
 I'm working on that - see [Add windows build](../issues/1)
 
 ## important notice
-For both builds you need to 
+For both builds you need to have [Azure Storage SDK C++](https://github.com/Azure/azure-storage-cpp) which based on [C++ REST SDK](https://github.com/Microsoft/cpprestsdk) prebuild and located in correct places - see CASSANDRA_PATH variable in makefile - please refer to [detailed build manual](../blob/master/docs/build.md)
+
+
 ## Run: standalone binary
 ## Run: from java via JNI
 ## Run: from your c++ code as lib
