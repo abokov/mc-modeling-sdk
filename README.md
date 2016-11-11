@@ -25,9 +25,8 @@ make
 ```
 
 # build windows
---tbd-
-working on that - see [Add windows build](../issues/1)
---tbd-
+__to be done__
+I'm working on that - see [Add windows build](../issues/1)
 
 # Run
 ## On Azure
