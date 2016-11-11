@@ -40,3 +40,7 @@ make
 ```
 
 ## Windows
+_to_be_done_soon_
+I'm working on that - see [Add windows build](../issues/1)
+
+
