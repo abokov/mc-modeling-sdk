@@ -55,7 +55,9 @@ void MonteCarlo::UpdateBrownMotionValues(void) {
 
 void MonteCarlo::runMonteCarlo(PositionJobData &jobData) {
 try {
-/*	std::cout<<"\n\n\n\n. c++ lib : entry data - before simulation\n";
+
+#ifdef _DBG_OUTPUT_
+	std::cout<<"\n\n\n\n. c++ lib : entry data - before simulation\n";
 
 	std::string s = jobData.PrintToString();
 	std::cout << s << std::endl;
@@ -63,7 +65,8 @@ try {
 	for (int i=0; i < vec.size(); i++) {
 		s = vec[i].PrintToString();
 		std::cout << s << std::endl;
-	};*/
+	};
+#endif	
 
 
 
@@ -71,13 +74,16 @@ try {
 
 	processor.Process();
 
-/*	std::cout<<"\n\n c++ - after simulation\n";
+#ifdef _DBG_OUTPUT_
+	std::cout<<"\n\n c++ - after simulation\n";
 	vec = jobData.GetPortfolioPtr();
 	for (int i=0; i < vec.size(); i++) {
 		s = vec[i].PrintToString();
 		std::cout << s << std::endl;
 	};
-	std::cout<<"\n\n";*/
+	std::cout<<"\n\n";
+#endif
+
 
 } catch (std::bad_alloc &mem )  {
 	printf("Run time error ( bad_alloc ) : runMonteCarlo exception : %s\n", mem.what());

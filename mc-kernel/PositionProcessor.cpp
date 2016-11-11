@@ -123,8 +123,10 @@ void PositionProcessor::Process(void) {
 	long horizon_in_days = job_data.GetHorizon() * 365;
 
 	// little optimization
+	// do pre-set value fo Bank Accounts
 	for (int i=0; i < port_size ; i++) {
 		if (monte_carlo->IsPositionBankAccount(portfolio[i].GetType())) {
+			// note: it might be not always correct assumpution to use TreasureBond type (and hist data) for Bank Accounts
 				BaseTypes::double_vector & hist = StockOptions::GetHistory(StockOptions::TreasureBond);
 				double val = hist[hist.size()-1];
 				portfolio[i].SetIsBankAccount(true);
@@ -137,9 +139,11 @@ void PositionProcessor::Process(void) {
 	}// for (int i=0; i < port_size ; i++) {
 
 
+// First cycle
+// make modeling 'iters_size'' times for each portfolio element
 	for (int j=0; j<iters_size; j++) {
         	for (int i=0; i < port_size ; i++) 
-			if (portfolio[i].GetIsBankAccount() == false) {
+			if (portfolio[i].GetIsBankAccount() == false) { // so do it for Bonds!
 						//price = amount/units
            				MonteCarloModel::ModelCommonDouble * monte_carlo_model = monte_carlo->GetModel(portfolio[i].GetType());
 						double price =  portfolio[i].GetPrice();
@@ -153,13 +157,18 @@ void PositionProcessor::Process(void) {
                             sim_value = val; // first pass
                         portfolio[i].SetSimulatedValue(sim_value);
 			} // for (int i=0; i < port_size ; i++) 
-			monte_carlo->UpdateBrownMotionValues();
+			monte_carlo->UpdateBrownMotionValues(); // You can change your model inside that method, by BrownMotion looks very logical here
 	} // for (int j=0; j<iters_size; j++) {
 
+
+// Second cycle 
+#ifdef _DBG_OUTPUT_
 	std::cout<<" job_data.GetHorizon() : " << job_data.GetHorizon()<<"\n";
+#endif
 	for (int year = 1 ; year <= job_data.GetHorizon(); year ++ ) {
                 for (int j=0; j<iters_size; j++) {
-                    for (int i=0; i < port_size ; i++)  if (portfolio[i].GetIsBankAccount()) {
+                    for (int i=0; i < port_size ; i++)  
+						if (portfolio[i].GetIsBankAccount()) { 
                             MonteCarloModel::ModelCommonDouble * monte_carlo_model = monte_carlo->GetModel(portfolio[i].GetType());
                             double price =  portfolio[i].GetPercentAccumulated();
                             monte_carlo_model->SetInitValue(price);
@@ -170,38 +179,50 @@ void PositionProcessor::Process(void) {
                             else
                                 sim_value = val; // first pass
                             portfolio[i].SetSimulatedValue(sim_value);
-                    } // for (int i=0; i < port_size ; i++)
+                    	} // if (portfolio[i].GetIsBankAccount()) {
                     monte_carlo->UpdateBrownMotionValues();
                 } // for (int j=0; j<iters_size; j++) {
 
                 // we got percent for one year.
-                for (int i=0; i < port_size ; i++)  if (portfolio[i].GetIsBankAccount()) {
-                    double perc_sim = portfolio[i].GetSimulatedValue();
-                    //portfolio[i].SetPercentAccumulated(perc_sim);
-                    if (year == 1) {
+                for (int i=0; i < port_size ; i++)  //  for Bank account we do simulate for year percent
+					 if (portfolio[i].GetIsBankAccount()) {
+                    	double perc_sim = portfolio[i].GetSimulatedValue();
+                    	//or this one? too simple! =>   portfolio[i].SetPercentAccumulated(perc_sim);
+                    	if (year == 1) {
                             portfolio[i].SetPercentAccumulatedSum(1 + (perc_sim/100) );
-                    } else {
+                    	} else {
                             double val = portfolio[i].GetPercentAccumulatedSum();
                             portfolio[i].SetPercentAccumulatedSum(val * (1+ (perc_sim/100) )) ;
-                    }
-                    //std::cout<< "portfolio[i].GetPercentAccumulatedSum() :" <<portfolio[i].GetPercentAccumulatedSum()<<"\n";
-                    //std::cout<< " perc_sim:" <<perc_sim<<"\n";
-                }
-               //std::cout<< "\n-------------------\n";
+                    	}
+#ifdef _DBG_OUTPUT_					
+                    	std::cout<< "portfolio[i].GetPercentAccumulatedSum() :" <<portfolio[i].GetPercentAccumulatedSum()<<"\n";
+                    	std::cout<< " perc_sim:" <<perc_sim<<"\n";
+#endif
+                	}// if (portfolio[i].GetIsBankAccount()) {
+#ifdef _DBG_OUTPUT_					
+               std::cout<< "\n-------------------\n";
+#endif			   
 
         }; // for (int year = 1 ; year < job_data.GetHorizon(); year ++ ) {
 
 
+// third cycle
+	for (int i=0; i < port_size ; i++) // for Bank Accounts get grand total overall of all money on each account 
+	 	if (portfolio[i].GetIsBankAccount()) {
+			double price =  portfolio[i].GetPrice();
+			double perc =  portfolio[i].GetPercentAccumulatedSum();
+#ifdef _DBG_OUTPUT_					
+			std::cout<<" price before : "<<price<<", perc : "<<perc;
+#endif		
+			price = price * perc;
+			portfolio[i].SetSimulatedValue(price);
+#ifdef _DBG_OUTPUT_					
+			std::cout<<", after : "<<price<<"\n";
+#endif		
+		} // if (portfolio[i].GetIsBankAccount()) {
+		
 
-	for (int i=0; i < port_size ; i++)  if (portfolio[i].GetIsBankAccount()) {
-		double price =  portfolio[i].GetPrice();
-		double perc =  portfolio[i].GetPercentAccumulatedSum();
-		//std::cout<<" price before : "<<price<<", perc : "<<perc;
-		price = price * perc;
-		portfolio[i].SetSimulatedValue(price);
-		//std::cout<<", after : "<<price<<"\n";
-	}
-
+// fourth cycle
 	for (int i=0; i < port_size ; i++) {
 		double val2 = portfolio[i].GetSimulatedValue() * portfolio[i].GetUnits();
 		portfolio[i].SetSimulatedValue(val2);
