@@ -24,6 +24,8 @@ Then we go to last cycles - third cycle is only for bank accounts we need to kno
 
 # Source code : build, run and contribute
 
+For both builds you need to have [Azure Storage SDK C++](https://github.com/Azure/azure-storage-cpp) which based on [C++ REST SDK](https://github.com/Microsoft/cpprestsdk) prebuild and located in correct places - see CASSANDRA_PATH variable in makefile - please refer to [detailed build manual](../blob/master/docs/build. If you don't need Azure storage to be inolved into build - please use makefile with NO_AZURE setting.
+
 ## build linux
 
 Current process is pretty simple - it's enough to make command
@@ -37,8 +39,6 @@ Note: there's some issues with running standalone binary on some linux flavours,
 _to be done_
 I'm working on that - see [Add windows build](../issues/1)
 
-## important notice
-For both builds you need to have [Azure Storage SDK C++](https://github.com/Azure/azure-storage-cpp) which based on [C++ REST SDK](https://github.com/Microsoft/cpprestsdk) prebuild and located in correct places - see CASSANDRA_PATH variable in makefile - please refer to [detailed build manual](../blob/master/docs/build.md)
 
 
 ## Run: standalone binary
