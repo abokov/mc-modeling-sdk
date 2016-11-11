@@ -44,14 +44,12 @@ Note: there's some issues with running standalone binary on some linux flavours,
 _to be done_
 I'm working on that - see [Add windows build](../issues/1)
 
-
-
-## Run: standalone binary
-## Run: from java via JNI
-## Run: from your c++ code as lib
-
-
 ## Contribute 
+There's 3 branches at this momemt:
+* master - where we keep more-less stable release ( it might not include all features, but works somehow ).
+* dev-trunk-azure - where we keep azure related dev branch
+* open-stack  - integration with Swift storage
 
-# Debug
-# Samples
+
+
+
