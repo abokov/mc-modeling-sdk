@@ -50,6 +50,33 @@ There's 3 branches at this momemt:
 * dev-trunk-azure - where we keep azure related dev branch
 * open-stack  - integration with Swift storage
 
+# Input data
+
+Entry data format is XML (or xml like if you want ) - it describes two types of elements which may exists in portfolio - stocks - which related to stock options and bonds, which are bank accounts - as it described below they treated differently during simulation.
+```
+<xml>
+<simulation_data>
+
+
+<horizon years="1" month="2" days="3">
+</horizon>
+           
+<portfolio>
+         <element name="IBM" type="stock" amount="100"/>
+         <element name="Oracle" type="bond" amount="200">
+           <history>
+                <data="213"/>
+                <data="333">
+           </history>     
+         </element>
+         <element name="Mr.Lee" type="bond" amount="200"/>
+         
+</portfolio>         
+         
+         
+ </xml>
+```
+Note: actually SDK do not check for XML syntax, so it might happened that syntax-wrong XML-like file will be okay for SDK, adding syntax check will increase complexity of codebase without any benefits.
 
 
 
