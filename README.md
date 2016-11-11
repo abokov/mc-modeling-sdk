@@ -21,10 +21,10 @@ In second cycle we do simulation for percent of money changes in that account an
 Then we go to last cycles - third cycle is only for bank accounts we need to know how much money overall do we have in that account and 4th cycle is to calculated numbers in correct measured units.
 
 
-##
-##
 
-# build linux
+# Source code : build, run and contribute
+
+## build linux
 
 Current process is pretty simple - it's enough to make command
 ```
@@ -33,14 +33,18 @@ make
 All binaries are located under bin folder and executable file is _mc-modeling.bin_
 Note: there's some issues with running standalone binary on some linux flavours, I checked it on 64bits Ubuntu16.04, but I got feedback about issues on another linux-es/
 
-# build windows
+## build windows
 _to be done_
 I'm working on that - see [Add windows build](../issues/1)
 
-# Run
-## On Azure
-## On your own environment
-## GCE
+## important notice
+For both builds you need to 
+## Run: standalone binary
+## Run: from java via JNI
+## Run: from your c++ code as lib
+
+
+## Contribute 
 
 # Debug
 # Samples
