@@ -4,7 +4,7 @@
 #include <core/PositionProcessor.h>
 #include <core/simulation.h>
 
-#include "com_gridgainec2_DemoManagerJni.h"
+//#include "net_bokov_mc_modeling.h"
 #include "JavaInterface.h"
 
 
@@ -14,7 +14,7 @@ void runMonteCarlo(JNIEnv *jni_env, jobject java_this, jobjectArray position_arr
 extern "C" {
 //public native void runMonteCarlo(Position[] array, int horizon, int iters);
 
-JNIEXPORT void JNICALL Java_com_gridgainec2_DemoManagerJni_runMonteCarlo
+JNIEXPORT void JNICALL net_bokov_mc_modeling_runMonteCarlo
   (JNIEnv *jni_env, jobject java_this, jobjectArray position_array, jint horizon, jint iters) {
 // return something from 1 onto 100
 	runMonteCarlo(jni_env, java_this, position_array, horizon, iters);
