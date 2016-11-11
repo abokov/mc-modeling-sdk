@@ -29,7 +29,7 @@ For both builds you need to have [Azure Storage SDK C++](https://github.com/Azur
 AZURE_STORAGE_SDK = ${AZURE_STORAGE_SDK}
 REST_API_SDK = ${REST_API_SDK}
 ```
- variable in makefile - please refer to [detailed build manual](../blob/master/docs/build. If you don't need Azure storage to be inolved into build - please use makefile with NO_AZURE setting.
+Please refer to complete build process description in [detailed build manual](../blob/master/docs/build). To build with Azure SDK usage please set 'AZURE_SDK' environment variable during build time, by defaul it not set.
 
 ## build linux
 
