@@ -1,6 +1,9 @@
 
 
 JAVA_DIR = ${JAVA_HOME}
+AZURE_STORAGE_SDK = ${AZURE_STORAGE_SDK}
+REST_API_SDK = ${REST_API_SDK}
+
 
 # place for g++ generated binaries - object files, libs and executables
 BIN_DIR = bin
@@ -18,6 +21,18 @@ UTILS_DIR=xml_tools
 
 UTILS_OBJS=$(BIN_DIR)/bxmlnode.o $(BIN_DIR)/xml_config.o
 
+
+# add includes and binary folders from Azure SDKs
+ifdef AZURE_BUILD
+
+INCLUDES = $(INCLUDES) $(REST_API_SDK)/Release/include/cpprest
+INCLUDES = $(INCLUDES) $(AZURE_STORAGE_SDK)/Microsoft.WindowsAzure.Storage/includes 
+INCLUDES = $(INCLUDES) $(AZURE_STORAGE_SDK)//Microsoft.WindowsAzure.Storage/includes/was
+INCLUDES = $(INCLUDES) $(AZURE_STORAGE_SDK)/Microsoft.WindowsAzure.Storage/includes/wascore
+AZURE_SDK_BIN = $(REST_API_SDK)/Release/build.debug/Binaries $(REST_API_SDK)/Release/build.release/Binaries
+
+endif
+
 # monte carlo model dir
 MC_MODEL_DIR=models
 
@@ -30,7 +45,7 @@ MC_KERNEL_OBJS = $(BIN_DIR)/PositionProcessor.o $(BIN_DIR)/HistoryDatabase.o $(B
 MC_AZURE_OBJS = $(BIN_DIR)/mc-azure.o
 
 
-COMMON_OBJS = $(MODELOBJS) $(UTILS_OBJS) $(BIN_DIR)/JavaInterface.o
+COMMON_OBJS = $(MODELOBJS) $(UTILS_OBJS) $(BIN_DIR)/JavaInterface.o  $(AZURE_SDK_BIN)
 #-----------------------------------------------------------------------------------------------------
 MC_SIMULATION_EXECUTABLE = $(BIN_DIR)/mc-modeling.bin
 

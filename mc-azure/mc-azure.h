@@ -6,9 +6,13 @@
 
 #include <mc-kernel/PositionProcessor.h>
 
+#ifdef AZURE_BUILD
+// false on error
+bool getDataAzureBlob(const char *storage_account,const char *account_key,
+    const char *container_name, const char*blob_name, PositionJobData &job);
 
-void getDataAzureBlob(const char *storage_account,const char*blob_name, PositionJobData &job);
 
+#endif
 
 #endif
 

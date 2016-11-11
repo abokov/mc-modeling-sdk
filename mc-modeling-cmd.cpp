@@ -24,7 +24,11 @@ int main( int argc, const char* argv[] ) {
     PositionJobData jobData(task);
 
 	if (argv[2] ==  "-azure") {
+#ifdef AZURE_BUILD
 		getDataAzureBlob(argv[3],argv[4],jobData);
+#else
+		std::cout<<" error: Wrong build of binary - AZURE_BUILD should be defined on build time!"<<std::endl;
+#endif		
 	} else if (argv[2] == "--local") {
 //		get_azure_data(PositionJobData,argv[3],argv[4])
 		// get data from CSV

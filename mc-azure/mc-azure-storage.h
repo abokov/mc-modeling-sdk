@@ -1,6 +1,7 @@
 #ifndef __MC_AZURE_STORAGE_INC__
 #define __MC_AZURE_STORAGE_INC__ 1
 
+#ifdef AZURE_BUILD
 
 #include "was/storage_account.h"
 #include "was/blob.h"
@@ -55,6 +56,7 @@ public:
 
 	bool SaveFileToBlob(const char *blob_name, const char *file_name, bool is_public);
 	bool SaveBlobToFile(const char *blob_name, const char *file_name);
+	bool SaveBlobToPositionData(const char *blob_name, PositionJobData &job);
 
 	const char * GetErrorDescription(void) { 
 		return error_descr.c_str();
@@ -63,5 +65,7 @@ public:
 };
 
 }
+
+#endif 
 
 #endif

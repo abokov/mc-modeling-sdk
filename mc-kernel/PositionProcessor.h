@@ -142,7 +142,12 @@ public:
         }
 
 
-	std::string PrintToString(void);
+// -- read/write methods
+
+
+	std::string PrintToString(void); //more for debug purposes
+
+	bool ReadFromFile(std::string &s);
 };
 
 

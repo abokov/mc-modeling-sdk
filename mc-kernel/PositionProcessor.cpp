@@ -1,5 +1,10 @@
 #include <sstream>
 #include <iostream>
+#include <fstream>
+#include <linux/limits.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 
 #include "mc-common/mc-base-types.h"
 
@@ -58,6 +63,55 @@ std::string PositionData::PrintToString(void) {
 	getline(ss, s,'\n');
 	return s;
 }
+
+
+// bad bad bad bad
+std::string open_temp(std::string &path,std::ofstream& f) {
+    path += "/XXXXXX";
+    std::vector<char> dst_path(path.begin(), path.end());
+    dst_path.push_back('\0');
+	 // omg, never mkstemp again!
+    int fd = mkstemp(&dst_path[0]);
+    if(fd != -1) {
+        path.assign(dst_path.begin(), dst_path.end() - 1);
+        f.open(path.c_str(), 
+               std::ios_base::trunc | std::ios_base::out);
+        close(fd);
+    }
+	return path;
+	/*
+	char tmp_name[PATH_MAX];
+
+	std::string temp_file= std::tmpnam(tmp_name);
+std::ios_base::trunc;
+
+	f.open(temp_file.c_str(), std::ios_base::trunc | std::ios_base::out);
+*/
+ //   return temp_file;
+}
+
+
+bool PositionData::ReadFromFile(std::string &s) {
+#ifdef _AZURE_SDK__
+// use dirty hack - save to file, then use xml_congi
+	std::string temp_file;
+	{ 
+    	std::ofstream f;
+		temp_file=open_temp("/tmp/",f);
+		f<<s;
+		f.close();
+	};
+	//
+	BaseTypes::SimulationTask task;
+	XmlConfigFile xml_config(temp_file, task);
+	bool b = xml_config.Read();
+
+	std::remove(temp_file);
+	return b;	
+#endif
+	return true;
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------------------
 

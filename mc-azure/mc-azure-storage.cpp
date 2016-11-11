@@ -1,4 +1,7 @@
 
+#ifdef AZURE_BUILD
+
+
 #include "mc-azure-storage.h"
 
 #include "cpprest/filestream.h"
@@ -145,7 +148,47 @@ return true;
 
 
 
+bool McAzureStorage::SaveBlobToPositionData(const char *blob_name, PositionJobData &job) {
+try {
+// get blob as text and then parse  
+
+       azure::storage::cloud_block_blob text_blob = container.get_block_blob_reference(blob_name);
+       utility::string_t text = text_blob.download_text();
+       std::string s = (XPLAT) text;
+
+       bool b = job.ReadFromFile(s);
+
+#ifdef __DEBUG_MC_AZURE__            
+        cout << "Text: " << s << std::endl;
+#endif        
+
+
+        return b;
+
+} catch (const std::invalid_argument &ex )  {
+        error_descr = "Exception std::invalid_argument caught : " + std::string(ex.what());
+#ifdef __DEBUG_MC_AZURE__
+        std::cout<<error_descr<<"\n";
+#endif
+        return false;
+} catch  (const std::exception &ex )  {
+        error_descr = "Exception std::exception caught : " + std::string(ex.what());
+#ifdef __DEBUG_MC_AZURE__
+        std::cout<<error_descr<<"\n";
+#endif
+        return false;
+} catch (...) {
+        error_descr = "Unknown exception caught ! ";
+#ifdef __DEBUG_MC_AZURE__
+        std::cout<<error_descr<<"\n";
+#endif
+        return false;
+} 
+return true;
+
+
 
 } // namespace azure::storage::samples
 
 
+#endif
