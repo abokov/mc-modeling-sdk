@@ -108,6 +108,25 @@ where name is name ("Oracle"), type is type("bond" or "stock"), units and amount
 During simulation SDK setup these fields:  _simulatedValue_,  _price_, _perc_accumulated_ and _perc_accumulated_sum_.
 Flag is_bank_account is RFU.
 
+You can set PositionJobData by yourself from required data source ( now we support local file, azure blob file, and in future open stack swift storage ), but inside that SDK we have helpers which might help you with that.
+
+## Reading data from XML
+
+Inside [xml_tools](https://github.com/abokov/mc-modeling-sdk/blob/master/xml_tools/) you may find xml_config.h contains class _XmlConfigFile_
+lass XmlConfigFile {
+	std::string cfg_file;
+	BaseTypes::SimulationTask task; 
+public:
+	XmlConfigFile(const char *config_file, BaseTypes::SimulationTask &my_task);
+	~XmlConfigFile();
+
+	void Init(const char *config_file, BaseTypes::SimulationTask &my_task);
+
+	bool Read(void);
+
+};
+
+
 # Usage ( command line )
 
 note: very beta, some bugs may exists, thanks!
