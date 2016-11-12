@@ -1,5 +1,15 @@
+# -- swift settings part
+
+CXXFLAGS = -fPIC -g -O3 -Wall -fmessage-length=0 -std=c++11
+CFLAGS = -Wno-address -Wno-char-subscripts # -Wno-sign-compare
+
+#Libraries
+LDFLAGS = -shared
+
+LIBS =-lPocoUtild -lPocoUtil -lPocoXML -lPocoNet -lPocoNetd -lPocoFoundation -lPocoXMLd -lPocoFoundationd -lpthread
 
 
+# -- end of swift
 JAVA_DIR = ${JAVA_HOME}
 
 # place for g++ generated binaries - object files, libs and executables
