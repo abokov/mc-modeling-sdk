@@ -9,12 +9,14 @@
 #include <Header.h>
 #include <Tenant.h>
 #include <Service.h>
+#include <Account.h>
 
 namespace McSwift {
   
 class McSwiftConnector {
-    Swift::Service *swift_service;
+    Swift::Service * swift_service;
     Swift::Tenant * tenant;
+    Switf::Account * account;
 public:
     McSwiftConnector();
     ~McSwiftConnector();
