@@ -20,7 +20,12 @@ In second cycle we do simulation for percent of money changes in that account an
 
 Then we go to last cycles - third cycle is only for bank accounts we need to know how much money overall do we have in that account and 4th cycle is to calculated numbers in correct measured units.
 
+## Threads
 
+Existing implementation in _'master'_ branch are not using any thread pools, so you can easily embed that in any single thread and run via thread pool or use other parallelization techniques. Please be aware of fact that inside SDK we use std:: a lot, and in case of AZURE_SDK build we use Azure Storage SDK which based on C++ REST SDK - last one already support async, so be informed - [C++ REST SDK: asynchronous tasks vs. C++11 multithreading](http://stackoverflow.com/questions/36338032/c-rest-sdk-asynchronous-tasks-vs-c11-multithreading).
+So currently all code run as plain thing in one thread ( if not AZURE_SDK who do async web api calls ) - this decision made by experience and practical scenarios, especially when running SDK in cloud environment. Multi-thread/async running _migt_ bring not so linear/plain performance estimation, and having evetything in one thread it makes things simplier.
+
+But in some scenarios ( when SDK using as part of computational back-end for multi-tenant applicion ) this may brings unefficient usage of computational resources and increase costs of ownership - for that purpose I started branch _'dev-thread-pool'_
 
 # Source code : build, run and contribute
 
