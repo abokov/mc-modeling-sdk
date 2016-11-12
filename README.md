@@ -79,4 +79,45 @@ Entry data format is XML (or xml like if you want ) - it describes two types of 
 Note: actually SDK do not check for XML syntax, so it might happened that syntax-wrong XML-like file will be okay for SDK, adding syntax check will increase complexity of codebase without any benefits.
 
 
+# Usage (as framework )
 
+Entry point for framework is class [_MonteCarlo_](https://github.com/abokov/mc-modeling-sdk/blob/master/mc-kernel/simulation.h)
+```
+MonteCarlo::runMonteCarlo(PositionJobData &job);
+```
+where PositionJobData is actually keep array (std::vector - see [Bjarne Stroustrup: C++11 Style](https://channel9.msdn.com/Events/GoingNative/GoingNative-2012/Keynote-Bjarne-Stroustrup-Cpp11-Style) - so here you need to initialize horizon (in days!) and number of iterations (int, remember MAX_INT number!) via corresponding setters inside PositionJobData class. 
+```
+PositionVector portfolio;
+int horizon;
+int iters;
+```
+Data (i.e. portfolio itself ) contained in poftofolio which is std::vector
+```
+typedef std::vector<PositionData> PositionVector;
+```
+Then PositionData class is actually related to each entity of portfolio:
+```
+std::string name, type;
+double units, amount, simulatedValue;
+double price;
+double perc_accumulated;
+double perc_accumulated_sum;
+bool is_bank_account;
+```
+where name is name ("Oracle"), type is type("bond" or "stock"), units and amount are should be set before simulation.
+During simulation SDK setup these fields:  _simulatedValue_,  _price_, _perc_accumulated_ and _perc_accumulated_sum_.
+Flag is_bank_account is RFU.
+
+# Usage ( command line )
+
+note: very beta, some bugs may exists, thanks!
+By xml file here we means Input data file format which desrcibed before. If you set hotizon and iteration number in command line it overrides settings in xml file.
+
+```
+Usage: mc-modeling-cmd config_file.xml [-azure storage_account blob_name]|[-local input_file] -iterations number\n"
+	Azure mode: upload historical data from azure storage account, output will be in stdout\n"
+            Please use params in order from below, change order not supported yet\n"
+	  example:  mc-modeling-cmd config_file.xml -azure TestAccount  NASDAQ_DATA  -iterations 10000000 -horizon 20\n"
+	" Local (standalone) mode: upload date from local file ( run locally ), output will be in stdout\n"
+	"   example:  mc-modeling-cmd config_file.xml -local /home/user/my_data.csv -iterations 10000000 -horizon 10" 
+```
