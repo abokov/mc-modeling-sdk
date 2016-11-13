@@ -1,4 +1,4 @@
-Processes and data modeling framework based on Monte-Carlo simulation and historical data, now on c++, multi-platform and Azure-enabled.
+Processes and data modeling C++ framework based on Monte-Carlo simulation and historical data.
 
 # How does it work
 
