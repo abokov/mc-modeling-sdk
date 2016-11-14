@@ -1,4 +1,4 @@
-Processes and data modeling C++ framework based on Monte-Carlo simulation and historical data.
+Processesing and data modeling C++ framework based on Monte-Carlo simulation and historical data.
 
 # How does it work
 
