@@ -109,6 +109,7 @@ double perc_accumulated;
 double perc_accumulated_sum;
 bool is_bank_account;
 ```
+
 where name is name ("Oracle"), type is type("bond" or "stock"), units and amount are should be set before simulation.
 During simulation SDK setup these fields:  _simulatedValue_,  _price_, _perc_accumulated_ and _perc_accumulated_sum_.
 Flag is_bank_account is RFU.
